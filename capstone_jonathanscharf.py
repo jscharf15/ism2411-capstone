@@ -24,14 +24,17 @@ df.columns = df.columns.str.lower().str.replace(" ", "_")
 df = df.drop_duplicates()
 print("After duplicates:", df.shape)
 
-# Section 3
 
 # Money: loan_amount and profit are text because of $ and ,
 for col in ["loan_amount", "profit"]:
     df[col] = df[col].str.replace("$", "", regex=False)
     df[col] = df[col].str.replace(",", "", regex=False).astype(float)
 
-# Dates: most parse directly. Recover the other real formats 
+# -----
+
+# Dates: most parse directly. Recover the other real formats (MM/DD/YYYY and
+# "March 29 2025"). Junk like "TBD" and impossible dates like 2025-13-01 stay NaT
+# because there is no real date to recover.
 raw_dates = df["application_date"].copy()
 d1 = pd.to_datetime(raw_dates, errors="coerce")
 d2 = pd.to_datetime(raw_dates, format="%m/%d/%Y", errors="coerce")
@@ -47,7 +50,7 @@ print(df[["loan_amount", "profit"]].head())
 print(df["application_date"].dtype)
 print("NaT count:", df["application_date"].isna().sum())
 
-# Section 4
+# ------
 
 # Industry typos: fix capitals and spaces first, then the two misspellings
 df["industry"] = df["industry"].str.strip().str.title()
@@ -55,9 +58,10 @@ df["industry"] = df["industry"].replace({"Resturants": "Restaurants",
                                          "Constrction": "Construction"})
 print(df["industry"].value_counts())   
 
-# Section 5
+# -------
 
 # Impossible values: 9,999 employees is a fake placeholder
+# Set to blank instead of deleting the row because loan data is still good
 df["employees"] = df["employees"].mask(df["employees"] == 9999)
 df["region"] = df["region"].fillna("Unknown")
 print(df["employees"].max())
@@ -70,4 +74,13 @@ print(df["region"].value_counts())
 # Checked the largest employee counts after removing 9,999 and they look real
 print(df["employees"].nlargest(10))
 
-# Section 6
+# -----
+# Negative amounts: kept on purpose
+# Negative profit means money lost on a default
+print(df.groupby("loan_status")["profit"].agg(["count", "min", "max"]))
+
+print("Clean shape:", df.shape)
+print(df.isnull().sum())
+df.info()
+
+df.to_csv("data/clean_data.csv", index=False)
