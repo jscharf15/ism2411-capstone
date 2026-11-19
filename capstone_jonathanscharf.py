@@ -17,3 +17,8 @@ print(df.describe())
 # 5. Industry names: there are 40+ spellings instead of 8
 #    (different capitals, extra spaces, typos like "Resturants").
 #    Region and Loan Status are fine.
+
+# CLEAN
+
+df.columns = df.columns.str.lower().str.replace(" ", "_")
+df = df.drop_duplicates()
