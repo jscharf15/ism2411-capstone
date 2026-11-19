@@ -27,12 +27,11 @@ print("After duplicates:", df.shape)
 # Section 3
 
 # Money: loan_amount and profit are text because of $ and ,
-# Remove them and convert to numbers (negatives stay negative)
 for col in ["loan_amount", "profit"]:
     df[col] = df[col].str.replace("$", "", regex=False)
     df[col] = df[col].str.replace(",", "", regex=False).astype(float)
 
-# (MM/DD/YYYY and "March 29 2025"); junk and impossible dates stay NaT.
+# Dates: most parse directly. Recover the otehr real formats 
 raw_dates = df["application_date"].copy()
 d1 = pd.to_datetime(raw_dates, errors="coerce")
 d2 = pd.to_datetime(raw_dates, format="%m/%d/%Y", errors="coerce")
@@ -55,3 +54,20 @@ df["industry"] = df["industry"].str.strip().str.title()
 df["industry"] = df["industry"].replace({"Resturants": "Restaurants",
                                          "Constrction": "Construction"})
 print(df["industry"].value_counts())   
+
+# Section 5
+
+# Impossible values: 9,999 employees is a fake placeholder
+df["employees"] = df["employees"].mask(df["employees"] == 9999)
+df["region"] = df["region"].fillna("Unknown")
+print(df["employees"].max())
+print(df["employees"].isna().sum())
+print(df["region"].value_counts())
+# fill with "Unknown" for regions so the loans stay in the data
+# left credit_score blank on purpose to it doesn't invent scores
+# left application_dat as NaT on purpose because a date can't be guessed
+
+# Checked the largest employee counts after removing 9,999 and they look real
+print(df["employees"].nlargest(10))
+
+# Section 6
