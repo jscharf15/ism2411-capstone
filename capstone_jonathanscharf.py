@@ -31,7 +31,7 @@ for col in ["loan_amount", "profit"]:
     df[col] = df[col].str.replace("$", "", regex=False)
     df[col] = df[col].str.replace(",", "", regex=False).astype(float)
 
-# Dates: most parse directly. Recover the otehr real formats 
+# Dates: most parse directly. Recover the other real formats 
 raw_dates = df["application_date"].copy()
 d1 = pd.to_datetime(raw_dates, errors="coerce")
 d2 = pd.to_datetime(raw_dates, format="%m/%d/%Y", errors="coerce")
@@ -64,8 +64,8 @@ print(df["employees"].max())
 print(df["employees"].isna().sum())
 print(df["region"].value_counts())
 # fill with "Unknown" for regions so the loans stay in the data
-# left credit_score blank on purpose to it doesn't invent scores
-# left application_dat as NaT on purpose because a date can't be guessed
+# left credit_score blank on purpose so it doesn't invent scores
+# left application_date as NaT on purpose because a date can't be guessed
 
 # Checked the largest employee counts after removing 9,999 and they look real
 print(df["employees"].nlargest(10))
