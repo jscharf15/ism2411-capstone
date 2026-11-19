@@ -20,12 +20,16 @@ print(df.describe())
 
 # -----CLEAN----- 
 
+# Column names: lowercase with underscores so they are easier to type
 df.columns = df.columns.str.lower().str.replace(" ", "_")
+
+# Duplicates: 40 rows were exact copies of the same loan.
 df = df.drop_duplicates()
 print("After duplicates:", df.shape)
 
 
 # Money: loan_amount and profit are text because of $ and ,
+# Remove them and convert to #'s
 for col in ["loan_amount", "profit"]:
     df[col] = df[col].str.replace("$", "", regex=False)
     df[col] = df[col].str.replace(",", "", regex=False).astype(float)
@@ -63,6 +67,8 @@ print(df["industry"].value_counts())
 # Impossible values: 9,999 employees is a fake placeholder
 # Set to blank instead of deleting the row because loan data is still good
 df["employees"] = df["employees"].mask(df["employees"] == 9999)
+
+# Missing values: region filled with "Unknown" so the loans stay in the data 
 df["region"] = df["region"].fillna("Unknown")
 print(df["employees"].max())
 print(df["employees"].isna().sum())
@@ -79,6 +85,7 @@ print(df["employees"].nlargest(10))
 # Negative profit means money lost on a default
 print(df.groupby("loan_status")["profit"].agg(["count", "min", "max"]))
 
+# Final check: shape, blanks, and types, then save the clean data
 print("Clean shape:", df.shape)
 print(df.isnull().sum())
 df.info()
