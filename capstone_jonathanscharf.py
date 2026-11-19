@@ -47,3 +47,11 @@ print(df[["loan_amount", "profit"]].dtypes)
 print(df[["loan_amount", "profit"]].head())
 print(df["application_date"].dtype)
 print("NaT count:", df["application_date"].isna().sum())
+
+# Section 4
+
+# Industry typos: fix capitals and spaces first, then the two misspellings
+df["industry"] = df["industry"].str.strip().str.title()
+df["industry"] = df["industry"].replace({"Resturants": "Restaurants",
+                                         "Constrction": "Construction"})
+print(df["industry"].value_counts())   
