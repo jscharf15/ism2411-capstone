@@ -18,8 +18,11 @@ import seaborn as sns
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", 200)
 
-df = pd.read_csv("data/capstone_finance.csv")
-print(df.shape)
+# ── 1. LOAD ───────────────────────────────────────────────────
+# Load the raw data and look at it before changing anything
+DATA_FILE = "data/capstone_finance.csv"
+df = pd.read_csv(DATA_FILE)
+print("Raw shape:", df.shape)
 print(df.head())
 df.info()
 print(df.isnull().sum())
