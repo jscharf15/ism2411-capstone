@@ -39,23 +39,20 @@ print(df.describe())
 #    (different capitals, extra spaces, typos like "Resturants").
 #    Region and Loan Status are fine.
 
-# -----CLEAN----- 
-
+# ── 2. CLEAN ──────────────────────────────────────────────────
 # Column names: lowercase with underscores so they are easier to type
 df.columns = df.columns.str.lower().str.replace(" ", "_")
 
-# Duplicates: 40 rows were exact copies of the same loan.
+# Duplicates: 40 rows were exact copies of the same loan, so keeping them
+# would count those loans twice
 df = df.drop_duplicates()
 print("After duplicates:", df.shape)
 
-
 # Money: loan_amount and profit are text because of $ and ,
-# Remove them and convert to #'s
+# Remove them and convert to numbers (negatives like -$45.00 stay negative)
 for col in ["loan_amount", "profit"]:
     df[col] = df[col].str.replace("$", "", regex=False)
     df[col] = df[col].str.replace(",", "", regex=False).astype(float)
-
-# -----
 
 # Dates: most parse directly. Recover the other real formats (MM/DD/YYYY and
 # "March 29 2025"). Junk like "TBD" and impossible dates like 2025-13-01 stay NaT
@@ -65,17 +62,8 @@ d1 = pd.to_datetime(raw_dates, errors="coerce")
 d2 = pd.to_datetime(raw_dates, format="%m/%d/%Y", errors="coerce")
 d3 = pd.to_datetime(raw_dates, format="%B %d %Y", errors="coerce")
 df["application_date"] = d1.fillna(d2).fillna(d3)
-
-bad = raw_dates[df["application_date"].isna() & raw_dates.notna()]
-print(len(bad))
-print(bad.value_counts())
-
-print(df[["loan_amount", "profit"]].dtypes)
-print(df[["loan_amount", "profit"]].head())
-print(df["application_date"].dtype)
 print("NaT count:", df["application_date"].isna().sum())
 
-# ------
 
 # Industry typos: fix capitals and spaces first, then the two misspellings
 df["industry"] = df["industry"].str.strip().str.title()
