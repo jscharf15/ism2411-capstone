@@ -89,4 +89,28 @@ print(df.groupby("loan_status")["profit"].agg(["count", "min", "max"]))
 print("Clean shape:", df.shape)
 print(df.isnull().sum())
 
+# ── 3. DERIVED COLUMNS ────────────────────────────────────────
+# [Add any columns your questions need, with a comment on why]
+
+# ── 4. DESCRIPTIVE SUMMARY ────────────────────────────────────
+print("\nDescriptive stats (clean):")
+print(df.describe())
+
+# ── 5. BUSINESS QUESTION 1 ────────────────────────────────────
+# [State your question in a comment]
+# [Your analysis code here]
+# [Your chart code here — with title, axis labels, savefig, show]
+# [Write a one-sentence finding in a comment]
+
+# ── 6. BUSINESS QUESTION 2 ────────────────────────────────────
+# [State your question]
+# [Analysis + chart]
+
+# ── 7. BUSINESS QUESTION 3 ────────────────────────────────────
+# [State your question]
+# [Analysis + chart]
+
+
+# ── 8. SAVE CLEAN DATA ────────────────────────────────────────
 df.to_csv("data/clean_data.csv", index=False)
+print("\nCapstone complete. Clean data saved to data/clean_data.csv")
