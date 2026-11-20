@@ -110,7 +110,6 @@ print(df.describe())
 # [State your question]
 # [Analysis + chart]
 
-
 # ── 8. SAVE CLEAN DATA ────────────────────────────────────────
 df.to_csv("data/clean_data.csv", index=False)
 print("\nCapstone complete. Clean data saved to data/clean_data.csv")
