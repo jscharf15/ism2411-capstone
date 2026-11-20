@@ -68,34 +68,25 @@ print("NaT count:", df["application_date"].isna().sum())
 df["industry"] = df["industry"].str.strip().str.title()
 df["industry"] = df["industry"].replace({"Resturants": "Restaurants",
                                          "Constrction": "Construction"})
-print(df["industry"].value_counts())   
+print(df["industry"].value_counts())   # should show exactly 8 industries
 
-# -------
-
-# Impossible values: 9,999 employees is a fake placeholder
-# Set to blank instead of deleting the row because loan data is still good
+# Impossible values: 9,999 employees is a fake placeholder.
+# Set to blank instead of deleting the row because the loan data is still good.
+# Checked the largest remaining counts (415, 381, 313...): they taper off
+# gradually, so they look like real businesses.
 df["employees"] = df["employees"].mask(df["employees"] == 9999)
 
-# Missing values: region filled with "Unknown" so the loans stay in the data 
+# Missing values: region filled with "Unknown" so the loans stay in the data.
+# credit_score and application_date left blank on purpose, because filling
+# them would invent scores and dates.
 df["region"] = df["region"].fillna("Unknown")
-print(df["employees"].max())
-print(df["employees"].isna().sum())
-print(df["region"].value_counts())
-# fill with "Unknown" for regions so the loans stay in the data
-# left credit_score blank on purpose so it doesn't invent scores
-# left application_date as NaT on purpose because a date can't be guessed
 
-# Checked the largest employee counts after removing 9,999 and they look real
-print(df["employees"].nlargest(10))
-
-# -----
-# Negative amounts: kept on purpose
-# Negative profit means money lost on a default
+# Negative amounts: kept on purpose. Only Default loans have negative profit
+# (money lost); every other status is positive.
 print(df.groupby("loan_status")["profit"].agg(["count", "min", "max"]))
 
-# Final check: shape, blanks, and types, then save the clean data
+# Final check: shape and blanks after cleaning
 print("Clean shape:", df.shape)
 print(df.isnull().sum())
-df.info()
 
 df.to_csv("data/clean_data.csv", index=False)
