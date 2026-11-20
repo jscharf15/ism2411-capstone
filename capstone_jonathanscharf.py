@@ -64,7 +64,6 @@ d3 = pd.to_datetime(raw_dates, format="%B %d %Y", errors="coerce")
 df["application_date"] = d1.fillna(d2).fillna(d3)
 print("NaT count:", df["application_date"].isna().sum())
 
-
 # Industry typos: fix capitals and spaces first, then the two misspellings
 df["industry"] = df["industry"].str.strip().str.title()
 df["industry"] = df["industry"].replace({"Resturants": "Restaurants",
