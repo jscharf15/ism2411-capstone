@@ -1,4 +1,22 @@
+"""
+ISM2411 Capstone — Small-Business Loan Portfolio Analysis
+Author: Jonathan Scharf
+Date:   [Submission Date]
+
+Business Questions:
+  1. [Your question 1]
+  2. [Your question 2]
+  3. [Your question 3]
+
+AI Disclosure: 
+"""
+
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 200)
 
 df = pd.read_csv("data/capstone_finance.csv")
 print(df.shape)
