@@ -4,9 +4,12 @@ Author: Jonathan Scharf
 Date:   December 6, 2026
 
 Business Questions:
-  1. [Your question 1]
-  2. [Your question 2]
-  3. [Your question 3]
+  1. Do riskier borrowers pay enough extra interest to cover the losses?
+  2. Which industry made the bank the most total profit, and does that industry 
+     stay on top in each of the four regions?
+  3. Is there a seasonal pattern in the number of Default or Late loans by month
+     of application in 2025? Which month is highest, and by how much above the
+     monthly average?
 
 AI Disclosure: 
 """
