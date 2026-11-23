@@ -1,7 +1,7 @@
 """
 ISM2411 Capstone — Small-Business Loan Portfolio Analysis
 Author: Jonathan Scharf
-Date:   [Submission Date]
+Date:   December 6, 2026
 
 Business Questions:
   1. [Your question 1]
@@ -50,9 +50,13 @@ print("After duplicates:", df.shape)
 
 # Money: loan_amount and profit are text because of $ and ,
 # Remove them and convert to numbers (negatives like -$45.00 stay negative)
-for col in ["loan_amount", "profit"]:
-    df[col] = df[col].str.replace("$", "", regex=False)
-    df[col] = df[col].str.replace(",", "", regex=False).astype(float)
+# Fix loan_amount: strip "$" and ",", convert to float
+df["loan_amount"] = df["loan_amount"].str.replace("$", "", regex=False)
+df["loan_amount"] = df["loan_amount"].str.replace(",", "", regex=False).astype(float)
+
+# Fix profit: strip "$" and ",", convert to float (negatives like -$45.00 stay negative)
+df["profit"] = df["profit"].str.replace("$", "", regex=False)
+df["profit"] = df["profit"].str.replace(",", "", regex=False).astype(float)
 
 # Dates: most parse directly. Recover the other real formats (MM/DD/YYYY and
 # "March 29 2025"). Junk like "TBD" and impossible dates like 2025-13-01 stay NaT
