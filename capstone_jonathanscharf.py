@@ -120,6 +120,7 @@ print(df.describe())
 # How does the default rate change as credit scores fall, and do lower-score borrowers still earn the bank a profit on average?
 # "Default rate" is the share of loans with loan_status == "Default"
 
+
 # [Your analysis code here]
 # [Your chart code here — with title, axis labels, savefig, show]
 # [Write a one-sentence finding in a comment]
