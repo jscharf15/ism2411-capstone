@@ -66,6 +66,14 @@ df["loan_amount"] = df["loan_amount"].str.replace(",", "", regex=False).astype(f
 df["profit"] = df["profit"].str.replace("$", "", regex=False)
 df["profit"] = df["profit"].str.replace(",", "", regex=False).astype(float)
 
+# Negative profit: kept on purpose. Only Default loans have negative profit (money lost)  
+# Reason: negative profit is money lost on a defaulted loan, and those losses are the core of this dataset
+# Only Default loans are negative
+print(df.groupby("loan_status")["profit"].agg(["count", "min", "max"]))
+
+# Remove impossible values that describe() reveals
+# Reason: 9,999 employees is a placeholder someone typed, not a real business
+df = df[df["employees"] != 9999]
 
 # Industry typos: fix capitals and spaces first, then the two misspellings
 df["industry"] = df["industry"].str.strip().str.title()
@@ -73,19 +81,10 @@ df["industry"] = df["industry"].replace({"Resturants": "Restaurants",
                                          "Constrction": "Construction"})
 print(df["industry"].value_counts())
 
-# Impossible values: 9,999 employees is a fake placeholder.
-# Set to blank instead of deleting the row because the loan data is still good
-# Checked the largest remaining counts (415, 381, 313...) 
-# They taper off gradually, so they look like real businesses.
-df["employees"] = df["employees"].mask(df["employees"] == 9999)
-
 # Missing values: region filled with "Unknown" so the loans stay in the data
 # credit_score and application_date left blank on purpose, because filling them would invent scores and dates.
 df["region"] = df["region"].fillna("Unknown")
 
-# Negative amounts: kept on purpose. Only Default loans have negative profit (money lost)  
-# Every other status is positive
-print(df.groupby("loan_status")["profit"].agg(["count", "min", "max"]))
 
 # Final check: shape and blanks after cleaning
 print("Clean shape:", df.shape)
