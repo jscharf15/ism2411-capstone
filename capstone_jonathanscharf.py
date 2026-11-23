@@ -117,16 +117,27 @@ print("\nDescriptive stats (clean):")
 print(df.describe())
 
 # ── 5. BUSINESS QUESTION 1 ────────────────────────────────────
-# How does the default rate change as credit scores fall, and do lower-score borrowers still earn the bank a profit on average?
+# 1. How does the default rate change as credit scores fall, and do lower-score borrowers still earn the bank a profit on average?
 # "Default rate" is the share of loans with loan_status == "Default"
+# Note: about 2% of credit scores were filled with the median during cleaning,
+# and "Current" loans may still default later, so this is the rate so far.
+
+# ---- Analysis Code ----
+by_band = df.groupby("credit_band", observed=True).agg(
+    loans=("loan_id", "count"),
+    default_rate=("is_default", "mean"),
+    avg_profit=("profit", "mean"),
+)
+by_band["default_rate"] = by_band["default_rate"] * 100
+print(by_band.round(2))
+band_df = by_band.reset_index()
 
 
-# [Your analysis code here]
-# [Your chart code here — with title, axis labels, savefig, show]
+
 # [Write a one-sentence finding in a comment]
 
 # ── 6. BUSINESS QUESTION 2 ────────────────────────────────────
-# Which industries make the bank the most profit per loan, and is that because they default less often?
+# 2. Which industries make the bank the most profit per loan, and is that because they default less often?
 # [Analysis + chart]
 
 # ── 7. BUSINESS QUESTION 3 ────────────────────────────────────
