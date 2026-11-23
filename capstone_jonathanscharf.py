@@ -117,7 +117,8 @@ print("\nDescriptive stats (clean):")
 print(df.describe())
 
 # ── 5. BUSINESS QUESTION 1 ────────────────────────────────────
-# 1. How does the default rate change as credit scores fall, and do lower-score borrowers still earn the bank a profit on average?
+# 1. How does the default rate change as credit scores fall, and do lower-score 
+#    borrowers still earn the bank a profit on average?
 # "Default rate" is the share of loans with loan_status == "Default"
 # Note: about 2% of credit scores were filled with the median during cleaning,
 # and "Current" loans may still default later, so this is the rate so far.
@@ -153,7 +154,9 @@ plt.tight_layout()
 plt.savefig("charts/q1_credit_default_profit.png", dpi=150, bbox_inches="tight")
 plt.show()
 
-# [Write a one-sentence finding in a comment]
+# Findings - The default rate rises as credit scores fall, with 27.2% of loans defaulting 
+# in the lowest band. The lower bands of scores do not earn the bank a profit, with 
+# the average profit being -$2,710.83 between credit scores of less than 580 to 669.
 
 # ── 6. BUSINESS QUESTION 2 ────────────────────────────────────
 # 2. Which industries make the bank the most profit per loan, and is that because they default less often?
