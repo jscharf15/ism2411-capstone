@@ -2,6 +2,14 @@
 
 **Name:** Jonathan Scharf
 
+## How to Install Packages
+
+From this folder:
+
+```
+pip install -r requirements.txt
+```
+
 ## How to Run
 
 From this folder:
