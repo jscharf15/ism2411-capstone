@@ -57,17 +57,17 @@ df["application_date"] = d1.fillna(d2).fillna(d3)
 print("NaT count:", df["application_date"].isna().sum())
 
 # Money: loan_amount and profit are text because of $ and ,
-# Remove them and convert to numbers (negatives like -$45.00 stay negative)
+# Remove them and convert to numbers
 # Fix loan_amount: strip "$" and ",", convert to float
 df["loan_amount"] = df["loan_amount"].str.replace("$", "", regex=False)
 df["loan_amount"] = df["loan_amount"].str.replace(",", "", regex=False).astype(float)
 
-# Fix profit: strip "$" and ",", convert to float (negatives like -$45.00 stay negative)
+# Fix profit: strip "$" and ",", convert to float 
 df["profit"] = df["profit"].str.replace("$", "", regex=False)
 df["profit"] = df["profit"].str.replace(",", "", regex=False).astype(float)
 
 # Negative profit: kept on purpose. Only Default loans have negative profit (money lost)  
-# Reason: negative profit is money lost on a defaulted loan, and those losses are the core of this dataset
+# Reason: negative profit is money lost on a defaulted loan, and those losses are important to this dataset
 # Only Default loans are negative
 print(df.groupby("loan_status")["profit"].agg(["count", "min", "max"]))
 
@@ -75,18 +75,21 @@ print(df.groupby("loan_status")["profit"].agg(["count", "min", "max"]))
 # Reason: 9,999 employees is a placeholder someone typed, not a real business
 df = df[df["employees"] != 9999]
 
-# Industry typos: fix capitals and spaces first, then the two misspellings
-df["industry"] = df["industry"].str.strip().str.title()
-df["industry"] = df["industry"].replace({"Resturants": "Restaurants",
-                                         "Constrction": "Construction"})
-print(df["industry"].value_counts())
+# Fill missing credit_score with median (about 2% of rows, aggregate impact minimal)
+df["credit_score"] = df["credit_score"].fillna(df["credit_score"].median())
 
-# Missing values: region filled with "Unknown" so the loans stay in the data
-# credit_score and application_date left blank on purpose, because filling them would invent scores and dates.
+# Fill missing region with "Unknown" so the loans stay in the data
 df["region"] = df["region"].fillna("Unknown")
 
+# Industry typos: fix capitals and spaces first, then the two misspellings that value_counts() shows
+df["industry"] = df["industry"].str.strip().str.title()
+df["industry"] = df["industry"].replace(
+    {"Resturants": "Restaurants", "Constrction": "Construction"}
+)
+print(df["industry"].value_counts())
 
-# Final check: shape and blanks after cleaning
+# Remove duplicates: 40 rows were exact copies of the same loan
+df = df.drop_duplicates()
 print("Clean shape:", df.shape)
 print(df.isnull().sum())
 
