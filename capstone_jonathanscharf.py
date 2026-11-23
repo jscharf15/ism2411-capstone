@@ -132,7 +132,26 @@ by_band["default_rate"] = by_band["default_rate"] * 100
 print(by_band.round(2))
 band_df = by_band.reset_index()
 
+# ---- Chart Code ----
+plt.figure(figsize=(12, 5))
 
+plt.subplot(1, 2, 1)
+sns.barplot(data=band_df, x="credit_band", y="default_rate")
+plt.title("Default Rate by Credit Score Band")
+plt.xlabel("Credit score band")
+plt.ylabel("Default rate (% of loans)")
+plt.xticks(rotation=30)
+
+plt.subplot(1, 2, 2)
+sns.barplot(data=band_df, x="credit_band", y="avg_profit")
+plt.title("Average Profit per Loan by Credit Score Band")
+plt.xlabel("Credit score band")
+plt.ylabel("Average profit per loan ($)")
+plt.xticks(rotation=30)
+
+plt.tight_layout()
+plt.savefig("charts/q1_credit_default_profit.png", dpi=150, bbox_inches="tight")
+plt.show()
 
 # [Write a one-sentence finding in a comment]
 
