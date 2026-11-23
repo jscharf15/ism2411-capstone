@@ -4,12 +4,9 @@ Author: Jonathan Scharf
 Date:   December 6, 2026
 
 Business Questions:
-  1. Do riskier borrowers pay enough extra interest to cover the losses?
-  2. Which industry made the bank the most total profit, and does that industry 
-     stay on top in each of the four regions?
-  3. Is there a seasonal pattern in the number of Default or Late loans by month
-     of application in 2025? Which month is highest, and by how much above the
-     monthly average?
+  1. How does the default rate change as credit scores fall, and do lower-score borrowers still earn the bank a profit on average?
+  2. Which industries make the bank the most profit per loan, and is that because they default less often?
+  3. Do larger loans default more often than smaller ones, and do they account for most of the bank's losses?
 
 AI Disclosure: 
 """
