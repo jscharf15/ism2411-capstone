@@ -94,24 +94,42 @@ print("Clean shape:", df.shape)
 print(df.isnull().sum())
 
 # ── 3. DERIVED COLUMNS ────────────────────────────────────────
-# [Add any columns your questions need, with a comment on why]
+# ---- Question 1 ----
+# credit_band: groups scores into standard FICO-style ranges so default rate
+# can be compared across them
+df["credit_band"] = pd.cut(
+    df["credit_score"],
+    bins=[300, 580, 670, 740, 800, 851],
+    labels=["Poor (<580)", "Fair (580-669)", "Good (670-739)",
+            "Very Good (740-799)", "Exceptional (800+)"],
+    right=False,
+)
+
+# is_default: 1 if the loan defaulted, 0 if not, so the average is the default rate
+df["is_default"] = (df["loan_status"] == "Default").astype(int)
+
+# --- Question 2 ----
+
+# ---- Question 3 ----
 
 # ── 4. DESCRIPTIVE SUMMARY ────────────────────────────────────
 print("\nDescriptive stats (clean):")
 print(df.describe())
 
 # ── 5. BUSINESS QUESTION 1 ────────────────────────────────────
-# [State your question in a comment]
+# How does the default rate change as credit scores fall, and do lower-score borrowers still earn the bank a profit on average?
+# "Default rate" is the share of loans with loan_status == "Default"
+
 # [Your analysis code here]
 # [Your chart code here — with title, axis labels, savefig, show]
 # [Write a one-sentence finding in a comment]
 
 # ── 6. BUSINESS QUESTION 2 ────────────────────────────────────
-# [State your question]
+# Which industries make the bank the most profit per loan, and is that because they default less often?
 # [Analysis + chart]
 
 # ── 7. BUSINESS QUESTION 3 ────────────────────────────────────
-# [State your question]
+# Do larger loans default more often than smaller ones, and do they account for most of the bank's losses?
 # [Analysis + chart]
 
 # ── 8. SAVE CLEAN DATA ────────────────────────────────────────
