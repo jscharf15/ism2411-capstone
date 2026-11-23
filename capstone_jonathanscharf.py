@@ -43,9 +43,9 @@ print(df.describe())
 # Column names: lowercase with underscores so they are easier to type
 df.columns = df.columns.str.lower().str.replace(" ", "_")
 
-# Duplicates: 40 rows were exact copies of the same loan, so keeping them would count those loans twice
-df = df.drop_duplicates()
-print("After duplicates:", df.shape)
+# Drop rows missing essential identifiers
+# Reason: a loan can't be placed in time without an application date
+df = df.dropna(subset=["application_date"])
 
 # Money: loan_amount and profit are text because of $ and ,
 # Remove them and convert to numbers (negatives like -$45.00 stay negative)
