@@ -206,9 +206,21 @@ plt.show()
 
 # ── 7. BUSINESS QUESTION 3 ────────────────────────────────────
 # Do larger loans default more often than smaller ones, and do they account for most of the bank's losses?
+# "Default rate" is the share of loans with loan_status == "Default"
+# "Losses" are the dollars lost on loans with negative profit
 
 # ---- Analysis Code ----
+by_size = df.groupby("loan_size_band", observed=True).agg(
+    loans=("loan_id", "count"),
+    default_rate=("is_default", "mean"),
+    total_loss=("loss", "sum"),
+)
+by_size["default_rate"] = by_size["default_rate"] * 100
+by_size["share_of_loans"] = by_size["loans"] / by_size["loans"].sum() * 100
+by_size["share_of_losses"] = by_size["total_loss"] / by_size["total_loss"].sum() * 100
+print(by_size.round(2))
 
+size_df = by_size.reset_index()
 
 # ── 8. SAVE CLEAN DATA ────────────────────────────────────────
 df.to_csv("data/clean_data.csv", index=False)
