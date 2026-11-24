@@ -222,6 +222,39 @@ print(by_size.round(2))
 
 size_df = by_size.reset_index()
 
+# --- Chart Code ----
+share_df = size_df.melt(
+    id_vars="loan_size_band",
+    value_vars=["share_of_loans", "share_of_losses"],
+    var_name="measure",
+    value_name="percent",
+)
+
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+sns.barplot(data=size_df, x="loan_size_band", y="default_rate")
+plt.title("Default Rate by Loan Size")
+plt.xlabel("Loan size band")
+plt.ylabel("Default rate (% of loans)")
+
+plt.subplot(1, 2, 2)
+sns.barplot(data=share_df, x="loan_size_band", y="percent", hue="measure")
+plt.title("Share of Loans vs. Share of Losses by Loan Size")
+plt.xlabel("Loan size band")
+plt.ylabel("Percent of total (%)")
+plt.legend(title="")
+
+plt.tight_layout()
+plt.savefig("charts/q3_loan_size_default_losses.png", dpi=150, bbox_inches="tight")
+plt.show()
+
+# Findings: No, larger loans do not default more often than smaller ones. 
+# Actually, default rates decrease slightly as loan size grows, dropping 
+# from 11.10% for loans under $50K down to 9.72% for loans of $200K+. 
+# However, larger loans do account for most of the bank's financial losses, 
+# as loans of $100K or more make up only 36.59% of total loans yet cause 65.66% of all dollar losses.
+
 # ── 8. SAVE CLEAN DATA ────────────────────────────────────────
 df.to_csv("data/clean_data.csv", index=False)
 print("\nCapstone complete. Clean data saved to data/clean_data.csv")
