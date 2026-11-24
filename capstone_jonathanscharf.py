@@ -160,7 +160,19 @@ plt.show()
 
 # ── 6. BUSINESS QUESTION 2 ────────────────────────────────────
 # 2. Which industries make the bank the most profit per loan, and is that because they default less often?
-# [Analysis + chart]
+
+# ---- Analysis Code ----
+by_industry = df.groupby("industry").agg(
+    loans=("loan_id", "count"),
+    avg_profit=("profit", "mean"),
+    default_rate=("is_default", "mean"),
+).sort_values("avg_profit", ascending=False)
+by_industry["default_rate"] = by_industry["default_rate"] * 100
+print(by_industry.round(2))
+
+industry_df = by_industry.reset_index()
+
+# ---- Chart Code ----
 
 # ── 7. BUSINESS QUESTION 3 ────────────────────────────────────
 # Do larger loans default more often than smaller ones, and do they account for most of the bank's losses?
