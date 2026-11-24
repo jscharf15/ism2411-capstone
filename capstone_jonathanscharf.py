@@ -154,9 +154,9 @@ plt.tight_layout()
 plt.savefig("charts/q1_credit_default_profit.png", dpi=150, bbox_inches="tight")
 plt.show()
 
-# Findings - The default rate rises as credit scores fall, with 27.2% of loans defaulting 
-# in the lowest band. The lower bands of scores do not earn the bank a profit, with 
-# the average profit being -$2,710.83 between credit scores of less than 580 to 669.
+# Finding: The default rate rises as credit scores fall, with 27.2% of loans
+# defaulting in the lowest band. The lower bands do not earn the bank a profit
+# on average: Poor loses $2,463.42 per loan and Fair loses $2,958.24.
 
 # ── 6. BUSINESS QUESTION 2 ────────────────────────────────────
 # 2. Which industries make the bank the most profit per loan, and is that because they default less often?
