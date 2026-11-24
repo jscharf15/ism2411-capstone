@@ -173,6 +173,23 @@ print(by_industry.round(2))
 industry_df = by_industry.reset_index()
 
 # ---- Chart Code ----
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+sns.barplot(data=industry_df, y="industry", x="avg_profit")
+plt.title("Average Profit per Loan by Industry")
+plt.xlabel("Average profit per loan ($)")
+plt.ylabel("Industry")
+
+plt.subplot(1, 2, 2)
+sns.barplot(data=industry_df, y="industry", x="default_rate")
+plt.title("Default Rate by Industry")
+plt.xlabel("Default rate (% of loans)")
+plt.ylabel("Industry")
+
+plt.tight_layout()
+plt.savefig("charts/q2_industry_profit_default.png", dpi=150, bbox_inches="tight")
+plt.show()
 
 # ── 7. BUSINESS QUESTION 3 ────────────────────────────────────
 # Do larger loans default more often than smaller ones, and do they account for most of the bank's losses?
