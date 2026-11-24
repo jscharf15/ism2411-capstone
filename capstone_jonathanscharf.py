@@ -191,6 +191,10 @@ plt.tight_layout()
 plt.savefig("charts/q2_industry_profit_default.png", dpi=150, bbox_inches="tight")
 plt.show()
 
+# Findings: The industry with the highest average profit per loan is Technology with it being $3,225.31. 
+# There is a correlation between Default Rate and Average Profit per Loan: the industries with the lowest default rate
+# (Technology, Healthcare, and Personal Services) are also the industries with the highest average profit per loan, with an average of $2,678.19.
+
 # ── 7. BUSINESS QUESTION 3 ────────────────────────────────────
 # Do larger loans default more often than smaller ones, and do they account for most of the bank's losses?
 # [Analysis + chart]
