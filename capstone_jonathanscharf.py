@@ -108,9 +108,18 @@ df["credit_band"] = pd.cut(
 # is_default: 1 if the loan defaulted, 0 if not, so the average is the default rate
 df["is_default"] = (df["loan_status"] == "Default").astype(int)
 
-# --- Question 2 ----
-
 # ---- Question 3 ----
+# loan_size_band: groups loan amounts into dollar ranges so default rate and
+# losses can be compared across loan sizes
+df["loan_size_band"] = pd.cut(
+    df["loan_amount"],
+    bins=[0, 50000, 100000, 200000, 500001],
+    labels=["Under $50K", "$50K-$99K", "$100K-$199K", "$200K+"],
+    right=False,
+)
+
+# loss: dollars lost on a loan. It is 0 if the loan did not lose money
+df["loss"] = (-df["profit"]).clip(lower=0)
 
 # ── 4. DESCRIPTIVE SUMMARY ────────────────────────────────────
 print("\nDescriptive stats (clean):")
@@ -197,7 +206,9 @@ plt.show()
 
 # ── 7. BUSINESS QUESTION 3 ────────────────────────────────────
 # Do larger loans default more often than smaller ones, and do they account for most of the bank's losses?
-# [Analysis + chart]
+
+# ---- Analysis Code ----
+
 
 # ── 8. SAVE CLEAN DATA ────────────────────────────────────────
 df.to_csv("data/clean_data.csv", index=False)
