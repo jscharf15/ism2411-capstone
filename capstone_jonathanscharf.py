@@ -114,7 +114,7 @@ df["is_default"] = (df["loan_status"] == "Default").astype(int)
 df["loan_size_band"] = pd.cut(
     df["loan_amount"],
     bins=[0, 50000, 100000, 200000, 500001],
-    labels=["Under $50K", "$50K-$99K", "$100K-$199K", "$200K+"],
+    labels=["Under $50K", "\\$50K-\\$99K", "\\$100K-\\$199K", "$200K+"],
     right=False,
 )
 
