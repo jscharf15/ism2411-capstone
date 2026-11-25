@@ -93,6 +93,11 @@ df = df.drop_duplicates()
 print("Clean shape:", df.shape)
 print(df.isnull().sum())
 
+# ── 8. SAVE CLEAN DATA ────────────────────────────────────────
+df.to_csv("data/clean_data.csv", index=False)
+print("\nCapstone complete. Clean data saved to data/clean_data.csv")
+
+
 # ── 3. DERIVED COLUMNS ────────────────────────────────────────
 # ---- Question 1 ----
 # credit_band: groups scores into standard FICO-style ranges so default rate
@@ -255,6 +260,3 @@ plt.show()
 # However, larger loans do account for most of the bank's financial losses, 
 # as loans of $100K or more make up only 36.59% of total loans yet cause 65.66% of all dollar losses.
 
-# ── 8. SAVE CLEAN DATA ────────────────────────────────────────
-df.to_csv("data/clean_data.csv", index=False)
-print("\nCapstone complete. Clean data saved to data/clean_data.csv")
